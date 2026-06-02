@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Valoración morfofuncional de la obesidad · CHUAC</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;0,9..40,800;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0E2841;
+  --teal: #156082;
+  --cyan: #0F9ED5;
+  --cyan-pale: #e0f3fb;
+  --green: #196B24;
+  --red: #C0392B;
+  --line: #d0dde6;
+  --line-light: #eaf0f5;
+  --ink: #0E2841;
+  --muted: #5b7080;
+  --bg: #f0f4f7;
+  --white: #ffffff;
+  --card-shadow-lg: 0 8px 40px rgba(14,40,65,.14), 0 2px 8px rgba(14,40,65,.08);
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+}
+.app { max-width: 1060px; margin: 0 auto; padding: 24px 16px 60px; }
+
+/* Header */
+.hd {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--teal) 100%);
+  border-radius: 16px 16px 0 0;
+  padding: 28px 36px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.hd::after {
+  content: '';
+  position: absolute; right: -40px; top: -40px;
+  width: 220px; height: 220px;
+  background: radial-gradient(circle, rgba(15,158,213,.18) 0%, transparent 70%);
+  border-radius: 50%;
+}
+.hd-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.12);
+  border: 1px solid rgba(255,255,255,.2);
+  border-radius: 20px; padding: 3px 12px;
+  font-size: .75em; font-weight: 600; color: rgba(255,255,255,.9);
+  letter-spacing: .5px; text-transform: uppercase; margin-bottom: 12px;
+}
+.hd h1 { color: #fff; font-size: 1.6em; font-weight: 800; line-height: 1.2; }
+
+/* Card */
+.main-card {
+  background: var(--white);
+  border-radius: 0 0 16px 16px;
+  box-shadow: var(--card-shadow-lg);
+  overflow: hidden;
+}
+
+/* Two-col */
+.two-col {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  min-height: 540px;
+}
+@media (max-width: 860px) { .two-col { grid-template-columns: 1fr; } }
+.form-col { padding: 28px 32px; border-right: 1px solid var(--line-light); }
+.res-col { padding: 28px 32px; background: #fafcfd; }
+
+/* Section title */
+.section-title {
+  font-size: .72em; font-weight: 700; color: var(--teal);
+  text-transform: uppercase; letter-spacing: 1px;
+  margin: 0 0 14px; padding-bottom: 8px;
+  border-bottom: 2px solid var(--cyan-pale);
+}
+
+/* Fields */
+.field { margin-bottom: 12px; }
+.field label {
+  display: block; font-weight: 600; font-size: .82em;
+  color: var(--muted); margin-bottom: 5px;
+}
+.field input, .field select {
+  width: 100%; padding: 9px 12px;
+  border: 1.5px solid var(--line); border-radius: 8px;
+  font-size: .95em; font-family: inherit; color: var(--ink);
+  background: var(--white); transition: border .15s, box-shadow .15s;
+}
+.field input:focus, .field select:focus {
+  outline: none; border-color: var(--teal);
+  box-shadow: 0 0 0 3px rgba(21,96,130,.12);
+}
+.grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.opt-note { font-size: .74em; color: var(--muted); font-style: italic; margin-top: 14px; line-height: 1.5; }
+
+/* Buttons */
+.btn-row { display: flex; gap: 10px; margin-top: 20px; }
+.btn {
+  flex: 1; padding: 11px 16px; border: none; border-radius: 9px;
+  cursor: pointer; font-family: inherit; font-weight: 700;
+  font-size: .92em; transition: transform .08s, opacity .15s, box-shadow .15s;
+}
+.btn:hover { opacity: .91; }
+.btn:active { transform: translateY(1px); }
+.btn-primary { background: var(--teal); color: #fff; box-shadow: 0 2px 8px rgba(21,96,130,.3); }
+.btn-clear { background: var(--white); color: var(--red); border: 1.5px solid var(--red); }
+.btn-copy {
+  width: 100%; margin-top: 12px; padding: 11px;
+  background: var(--green); color: #fff;
+  border: none; border-radius: 9px; cursor: pointer;
+  font-family: inherit; font-weight: 700; font-size: .92em;
+  transition: opacity .15s, background .2s;
+}
+.btn-copy:hover { opacity: .9; }
+.btn-copy.copied { background: var(--navy); }
+
+/* Results */
+.report-box {
+  background: var(--white); border: 1.5px solid var(--line);
+  border-radius: 10px; padding: 18px 20px;
+  white-space: pre-wrap; font-size: .88em; line-height: 1.75;
+  min-height: 300px; color: var(--ink);
+  font-family: 'DM Mono', monospace;
+}
+.placeholder-text { color: #9ab0bf; font-style: italic; font-family: 'DM Sans', sans-serif; }
+
+/* Footer */
+.foot {
+  padding: 12px 36px; font-size: .75em; color: var(--muted);
+  background: #f3f6f8; border-top: 1px solid var(--line-light);
+  text-align: center; border-radius: 0 0 16px 16px;
+}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="hd">
+    <div class="hd-badge">🏥 CHUAC · Endocrinología y Nutrición</div>
+    <h1>Valoración morfofuncional de la obesidad</h1>
+  </div>
+
+  <div class="main-card">
+    <div class="two-col">
+      <div class="form-col">
+        <div class="section-title">Datos del paciente</div>
+        <div class="grid2">
+          <div class="field">
+            <label for="mf-sexo">Sexo</label>
+            <select id="mf-sexo"><option value="1">Hombre</option><option value="0">Mujer</option></select>
+          </div>
+          <div class="field">
+            <label for="mf-edad">Edad (años)</label>
+            <input type="number" id="mf-edad" step="1" min="0" max="120">
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label for="mf-peso">Peso (kg)</label>
+            <input type="number" id="mf-peso" step="0.1" min="0">
+          </div>
+          <div class="field">
+            <label for="mf-talla">Talla (m)</label>
+            <input type="number" id="mf-talla" step="0.01" min="0" placeholder="ej. 1.70">
+          </div>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label for="mf-cintura">Cintura (cm)</label>
+            <input type="number" id="mf-cintura" step="0.1" min="0">
+          </div>
+          <div class="field">
+            <label for="mf-pant">Pantorrilla (cm)</label>
+            <input type="number" id="mf-pant" step="0.1" min="0">
+          </div>
+        </div>
+        <div class="field">
+          <label for="mf-dina">Dinamometría — fuerza prensil (kg)</label>
+          <input type="number" id="mf-dina" step="0.1" min="0">
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" type="button" onclick="calcMorfofuncional()">Calcular</button>
+          <button class="btn btn-clear" type="button" onclick="limpiarMF()">Borrar</button>
+        </div>
+        <p class="opt-note">%MG estimado con fórmula CUN-BAE (requiere edad y sexo). Los resultados son orientativos y no sustituyen el juicio clínico.</p>
+      </div>
+
+      <div class="res-col">
+        <div class="section-title">Informe</div>
+        <pre id="mf-report" class="report-box"><span class="placeholder-text">Introduzca los datos y pulse «Calcular».</span></pre>
+        <button class="btn-copy" id="mf-copy" type="button" onclick="copiar('mf-report','mf-copy')">Copiar informe</button>
+      </div>
+    </div>
+
+    <div class="foot">
+      Herramienta de apoyo clínico · © 2025 · Endocrinología y Nutrición · CHUAC · SERGAS
+    </div>
+  </div>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const n = id => parseFloat($(id).value);
+const i = id => parseInt($(id).value);
+const nan = v => isNaN(v) || v === null;
+
+let _lastReport = '';
+
+function copiar(reportId, btnId) {
+  if (!_lastReport) return;
+  const b = $(btnId), orig = b.textContent;
+  const ok = () => {
+    b.textContent = '✓ Copiado al portapapeles';
+    b.classList.add('copied');
+    setTimeout(() => { b.textContent = orig; b.classList.remove('copied'); }, 1800);
+  };
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(_lastReport).then(ok);
+  } else {
+    // Fallback para file:// y contextos no seguros
+    const ta = document.createElement('textarea');
+    ta.value = _lastReport;
+    ta.style.cssText = 'position:fixed;opacity:0;';
+    document.body.appendChild(ta);
+    ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    ok();
+  }
+}
+
+function calcMorfofuncional() {
+  const sexo    = i('mf-sexo');
+  const edad    = n('mf-edad');
+  const peso    = n('mf-peso');
+  const talla   = n('mf-talla');
+  const cintura = n('mf-cintura');
+  const pant    = n('mf-pant');
+  const dina    = n('mf-dina');
+
+  if ([edad, peso, talla, cintura, pant, dina].some(nan)) {
+    alert('Complete todos los campos obligatorios.');
+    return;
+  }
+  if (talla > 3) { alert('La talla debe introducirse en metros (ej. 1.70).'); return; }
+
+  const L = [];
+  L.push('VALORACIÓN MORFOFUNCIONAL DE LA OBESIDAD');
+  L.push('─'.repeat(46));
+  L.push(`Peso: ${peso.toFixed(1)} kg`);
+  L.push(`Talla: ${talla.toFixed(2)} m`);
+
+  // IMC
+  const imc = peso / (talla * talla);
+  let imcCat;
+  if (imc < 18.5)      imcCat = 'bajo peso';
+  else if (imc < 25)   imcCat = 'normopeso';
+  else if (imc < 30)   imcCat = 'sobrepeso';
+  else if (imc < 35)   imcCat = 'obesidad grado I';
+  else if (imc < 40)   imcCat = 'obesidad grado II';
+  else                 imcCat = 'obesidad grado III';
+  L.push(`IMC: ${imc.toFixed(1)} kg/m²  (${imcCat})`);
+
+  // % Masa grasa CUN-BAE
+  const mg = -44.988 + 0.503*edad + 10.689*sexo + 3.172*imc
+           - 0.026*imc*imc + 0.181*imc*sexo
+           - 0.02*imc*edad - 0.005*imc*imc*sexo + 0.00021*imc*imc*edad;
+  let mgCat;
+  if (sexo === 1) {
+    if (mg >= 25)      mgCat = 'obesidad';
+    else if (mg >= 20) mgCat = 'sobrepeso';
+    else               mgCat = 'normal';
+  } else {
+    if (mg >= 35)      mgCat = 'obesidad';
+    else if (mg >= 30) mgCat = 'sobrepeso';
+    else               mgCat = 'normal';
+  }
+  L.push(`% Masa grasa (CUN-BAE): ${mg.toFixed(1)} %  (${mgCat})`);
+
+  // Índice cintura/talla
+  const ict = cintura / (talla * 100);
+  const ictCat = ict >= 0.6 ? 'riesgo alto' : ict >= 0.5 ? 'riesgo aumentado' : 'normal';
+  L.push(`Índice cintura/talla (ICT): ${ict.toFixed(2)}  (${ictCat})`);
+
+  // Ratio pantorrilla/IMC (con ajuste interno, pero solo se muestra el ratio)
+  let ajuste = 0;
+  if (imc >= 40)      ajuste = 12;
+  else if (imc >= 30) ajuste = 7;
+  else if (imc >= 25) ajuste = 3;
+  const pantAj = pant - ajuste;
+  const umbralPP = sexo === 1 ? 33 : 32;
+  const ppCat = pantAj < umbralPP ? 'miopenia' : 'normal';
+  const ppImc = pant / imc;
+  L.push(`Ratio pantorrilla/IMC: ${ppImc.toFixed(2)} cm·m²/kg  (${ppCat})`);
+
+  // Dinamometría + ratio/IMC
+  const umbralDina = sexo === 1 ? 27 : 16;
+  const dinaCat = dina < umbralDina ? 'baja fuerza muscular' : 'normal';
+  const dinaImc = dina / imc;
+  // Interpretación del ratio dina/IMC: umbrales orientativos ♂ <1,0 / ♀ <0,7
+  const umbralDinaImc = sexo === 1 ? 1.0 : 0.7;
+  const dinaImcCat = dinaImc < umbralDinaImc ? 'baja fuerza relativa' : 'normal';
+  L.push(`Ratio dinamometría/IMC: ${dinaImc.toFixed(2)} kg·m²/kg  (${dinaImcCat})`);
+
+  _lastReport = L.join('\n');
+  $('mf-report').textContent = _lastReport;
+}
+
+function limpiarMF() {
+  _lastReport = '';
+  ['mf-sexo','mf-edad','mf-peso','mf-talla','mf-cintura','mf-pant','mf-dina'].forEach(id => {
+    const el = $(id);
+    if (el.tagName === 'SELECT') el.selectedIndex = 0;
+    else el.value = '';
+  });
+  $('mf-report').innerHTML = '<span class="placeholder-text">Introduzca los datos y pulse «Calcular».</span>';
+}
+</script>
+</body>
+</html>
